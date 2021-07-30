@@ -26,8 +26,11 @@ const renderData = (data) => {
     const destination = document.querySelector('#app');
     destination.innerHTML = "";
     for (let key in data) {
-        const note = data[key];
-        destination.innerHTML += createCard(note, key);
+        if(key!="archived")
+        {
+            const note = data[key];
+            destination.innerHTML += createCard(note, key);
+        }
     }
 };
 
@@ -47,9 +50,22 @@ const createCard = (note, noteId) => {
                     <footer class = "card-footer">
                         <a href="#" class="card-footer-item" onclick = "editNote('${noteId}')">Edit</a>
                         <a href="#" class="card-footer-item" onclick = "confirmDeleteNote('${noteId}')">Delete</a>
+                        <a href="#" class="card-footer-item" onclick = "archiveNote('${noteId}')">Archive</a>
                     </footer>
                 </div>
             </div>`;
+};
+
+const archiveNote = (noteId) => {
+    let noteToArchive = firebase.database().ref(`users/${googleUser.uid}/${noteId}`);
+    noteToArchive.once('value', (snapshot) => {
+        const note = snapshot.val();
+        firebase.database().ref(`users/${googleUser.uid}/archived`).push({
+        title: note.title,
+        text: note.text
+        });
+    });
+    noteToArchive.remove();
 };
 
 const confirmDeleteNote = (noteId) => {
@@ -110,4 +126,12 @@ const saveChanges = () => {
         text: text,
     });
     closeModal();
-}
+};
+
+const showArchivedNotes = () => {
+    const notesRef = firebase.database().ref(`users/${googleUser.uid}/archived`);
+    notesRef.on('value', (snapshot) => {
+    const data = snapshot.val();
+    renderData(data);
+  });
+};
