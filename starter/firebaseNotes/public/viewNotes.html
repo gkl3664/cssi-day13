@@ -37,6 +37,40 @@
         </div>
       </div>
     </div>
+    <div class="modal" id = "editNoteModal">
+  <div class="modal-background" onclick = "closeEditModal()"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Edit Note</p>
+      <button class="delete" aria-label="close" onclick="closeEditModal()"></button>
+    </header>
+    <section class="modal-card-body">
+      Title
+      <input class = "input is-normal" id = "editTitleInput" type = "text">
+      Text
+      <input class = "input is-normal" id = "editTextInput" type = "text">
+      <input id = "editNoteId" type = "hidden">
+    </section>
+    <footer class="modal-card-foot">
+      <button class="button is-success" onclick = "saveChanges()">Save changes</button>
+      <button class="button" onclick = "closeEditModal()">Cancel</button>
+    </footer>
+  </div>
+</div>
+<div class="modal" id = "confirmationModal">
+  <div class="modal-background" onclick = "closeConfirmationModal()"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Are you sure you would like to delete this note?</p>
+      <button class="delete" aria-label="close" onclick="closeConfirmationModal()"></button>
+    </header>
+    <input id = "confirmDeletionNoteId" type = "hidden">
+    <footer class="modal-card-foot">
+      <button class="button is-success" onclick = "deleteNote()">Yes</button>
+      <button class="button" onclick = "closeConfirmationModal()">No</button>
+    </footer>
+  </div>
+</div>
     <footer class="footer">
       <div class="container">
         <div class="content has-text-centered">
